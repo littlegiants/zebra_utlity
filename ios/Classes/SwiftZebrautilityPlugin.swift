@@ -22,7 +22,7 @@ public class SwiftZebrautilityPlugin: NSObject, FlutterPlugin {
         var printer = Printer.getInstance(binaryMessenger: self.binaryMessenger!)
         printers.append(printer)
         result(printer.toString())
-        
+
         
     }
    
