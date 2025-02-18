@@ -1,9 +1,18 @@
 /* CoreAnimation - CAMetalLayer.h
 
-   Copyright (c) 2013-2018, Apple Inc.
+   Copyright (c) 2013-2022, Apple Inc.
    All rights reserved. */
 
+#ifdef __OBJC__
+
+#if __has_include(<Metal/MTLDrawable.h>)
+
 #import <QuartzCore/CALayer.h>
+
+
+#import <QuartzCore/CAEDRMetadata.h>
+
+
 #import <Metal/MTLPixelFormat.h>
 #import <Metal/MTLDrawable.h>
 
@@ -11,9 +20,9 @@
 @protocol MTLTexture;
 @protocol MTLDrawable;
 
-@class CAMetalLayer;
+@class CAMetalLayer, NSDictionary;
 
-NS_ASSUME_NONNULL_BEGIN
+NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 /* CAMetalDrawable represents a displayable buffer that vends an object
  * that conforms to the MTLTexture protocol that may be used to create
@@ -40,7 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 /* Note: The default value of the `opaque' property for CAMetalLayer
  * instances is true. */
 
-API_AVAILABLE(macos(10.11), ios(8.0), watchos(2.0), tvos(9.0))
+
+API_AVAILABLE(macos(10.11), ios(8.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+
+
+
 @interface CAMetalLayer : CALayer
 {
 @private
@@ -58,7 +71,7 @@ API_AVAILABLE(macos(10.11), ios(8.0), watchos(2.0), tvos(9.0))
 /* This property returns the preferred MTLDevice for this CAMetalLayer. */
 
 @property(nullable, readonly) id<MTLDevice> preferredDevice
-  API_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
+  API_AVAILABLE(macos(10.15), ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);
 
 /* This property controls the pixel format of the MTLTexture objects.
  * The two supported values are MTLPixelFormatBGRA8Unorm and
@@ -112,6 +125,32 @@ API_AVAILABLE(macos(10.11), ios(8.0), watchos(2.0), tvos(9.0))
 @property (nullable) CGColorSpaceRef colorspace;
 
 
+/* If any rendering context on the screen has this enabled, all content will be
+ * clamped to its NSScreen’s maximumExtendedDynamicRangeColorComponentValue
+ * rather than 1.0. The default is NO.  */
+
+@property BOOL wantsExtendedDynamicRangeContent
+API_AVAILABLE(macos(10.11), ios(16.0), macCatalyst(16.0)) API_UNAVAILABLE(tvos, watchos);
+
+
+
+
+/* Metadata describing extended dynamic range content in the layer's drawable.
+ * Must be set before calling nextDrawable. If non-nil, content may be
+ * tone mapped to match the current display characteristics. If nil, samples
+ * will be rendered without tone mapping and values above the maximum EDR value
+ * -[NSScreen maximumExtendedDynamicRangeColorComponentValue] may be clamped.
+ * Defaults to nil. */
+@property (strong, nullable) CAEDRMetadata *EDRMetadata API_AVAILABLE(macos(10.15), ios(16.0)) API_UNAVAILABLE(watchos);
+
+
+
+
+
+
+
+
+
 
 /* Controls if `-nextDrawable' is allowed to timeout after 1 second and return
  * nil if * the system does not have a free drawable available. The default
@@ -119,8 +158,16 @@ API_AVAILABLE(macos(10.11), ios(8.0), watchos(2.0), tvos(9.0))
  * free drawable is available. */
 
 @property BOOL allowsNextDrawableTimeout
-  API_AVAILABLE(macos(10.13), ios(11.0), watchos(4.0), tvos(11.0));
+  API_AVAILABLE(macos(10.13), ios(11.0), tvos(11.0)) API_UNAVAILABLE(watchos);
+
+/* When non-nil, controls the options of developer HUD. Defaults to nil. */
+
+@property(nullable, copy) NSDictionary *developerHUDProperties
+  API_AVAILABLE(macos(13.0), ios(16.0), tvos(16.0)) API_UNAVAILABLE(watchos);
 
 @end
 
-NS_ASSUME_NONNULL_END
+NS_HEADER_AUDIT_END(nullability, sendability)
+
+#endif /* __has_include(<Metal/MTLDrawable.h>) */
+#endif /* __OBJC__ */

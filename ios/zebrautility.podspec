@@ -15,7 +15,7 @@ A flutter plugin for working with zebra printers
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '8.0'
+  s.platform = :ios, '15.0'
 
   
 #  s.source_files = 'Classes//*{.h,.a,.swift,.mm,.m,.hpp}'

@@ -1,12 +1,16 @@
 /* CoreAnimation - CAEAGLLayer.h
 
-   Copyright (c) 2007-2018, Apple Inc.
+   Copyright (c) 2007-2022, Apple Inc.
    All rights reserved. */
+
+#ifdef __OBJC__
+
+#if __has_include(<OpenGLES/EAGLDrawable.h>)
 
 #import <QuartzCore/CALayer.h>
 #import <OpenGLES/EAGLDrawable.h>
 
-NS_ASSUME_NONNULL_BEGIN
+NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 /* CAEAGLLayer is a layer that implements the EAGLDrawable protocol,
  * allowing it to be used as an OpenGLES render target. Use the
@@ -14,12 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
  * the created surface. */
 
 #ifndef GLES_SILENCE_DEPRECATION
-API_DEPRECATED("OpenGLES is deprecated",
-               ios(2.0, 12.0), watchos(2.0, 5.0), tvos(9.0, 12.0))
+API_DEPRECATED("OpenGLES is deprecated", ios(2.0, 12.0), tvos(9.0, 12.0))
+API_UNAVAILABLE(macos, watchos, visionos)
 #else
-API_AVAILABLE(ios(2.0), watchos(2.0), tvos(9.0))
+API_AVAILABLE(ios(2.0), tvos(9.0)) API_UNAVAILABLE(macos, watchos, visionos)
 #endif
-API_UNAVAILABLE(macos)
 @interface CAEAGLLayer : CALayer <EAGLDrawable>
 {
 @private
@@ -31,11 +34,15 @@ API_UNAVAILABLE(macos)
  * changes to the GLES content are sent to the screen via the standard
  * CATransaction mechanisms. */
 
-@property BOOL presentsWithTransaction API_AVAILABLE(ios(9.0), watchos(2.0), tvos(9.0));
+@property BOOL presentsWithTransaction API_AVAILABLE(macos(11.0), ios(9.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 
 /* Note: the default value of the `opaque' property in this class is true,
  * not false as in CALayer. */
 
 @end
 
-NS_ASSUME_NONNULL_END
+NS_HEADER_AUDIT_END(nullability, sendability)
+
+#endif /* __has_include(<OpenGLES/EAGLDrawable.h>) */
+
+#endif /* __OBJC__ */

@@ -1,6 +1,6 @@
 /* CoreAnimation - CATiledLayer.h
 
-   Copyright (c) 2006-2018, Apple Inc.
+   Copyright (c) 2006-2022, Apple Inc.
    All rights reserved. */
 
 /* This is a subclass of CALayer providing a way to asynchronously
@@ -22,11 +22,13 @@
  * an CATiledLayer object - doing so will effectively turn it into a
  * regular CALayer. */
 
+#ifdef __OBJC__
+
 #import <QuartzCore/CALayer.h>
 
-NS_ASSUME_NONNULL_BEGIN
+NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
+API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 @interface CATiledLayer : CALayer
 
 /* The time in seconds that newly added images take to "fade-in" to the
@@ -60,4 +62,6 @@ API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 
 @end
 
-NS_ASSUME_NONNULL_END
+NS_HEADER_AUDIT_END(nullability, sendability)
+
+#endif

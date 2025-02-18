@@ -1,7 +1,9 @@
 /* CoreAnimation - CAMediaTiming.h
 
-   Copyright (c) 2006-2018, Apple Inc.
+   Copyright (c) 2006-2022, Apple Inc.
    All rights reserved. */
+
+#ifdef __OBJC__
 
 #import <QuartzCore/CABase.h>
 #import <objc/objc.h>
@@ -27,10 +29,11 @@
 
 @class NSString;
 
-typedef NSString * CAMediaTimingFillMode NS_TYPED_ENUM;
+typedef NSString * CAMediaTimingFillMode NS_TYPED_ENUM API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 
-NS_ASSUME_NONNULL_BEGIN
+NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
+API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 @protocol CAMediaTiming
 
 /* The begin time of the object, in relation to its parent object, if
@@ -81,12 +84,14 @@ NS_ASSUME_NONNULL_BEGIN
 /* `fillMode' options. */
 
 CA_EXTERN CAMediaTimingFillMode const kCAFillModeForwards
-    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 CA_EXTERN CAMediaTimingFillMode const kCAFillModeBackwards
-    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 CA_EXTERN CAMediaTimingFillMode const kCAFillModeBoth
-    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 CA_EXTERN CAMediaTimingFillMode const kCAFillModeRemoved
-    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 
-NS_ASSUME_NONNULL_END
+NS_HEADER_AUDIT_END(nullability, sendability)
+
+#endif
